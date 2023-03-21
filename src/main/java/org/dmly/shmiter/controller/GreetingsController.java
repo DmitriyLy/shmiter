@@ -9,10 +9,10 @@ import java.util.Map;
 @Controller
 public class GreetingsController {
 
-    @GetMapping
+    /*@GetMapping
     public String displayIndex() {
         return "index";
-    }
+    }*/
 
     @GetMapping(path = "/greetings")
     public String displayGreetings(@RequestParam(required = false, defaultValue = "world") String name, Map<String, Object> model) {
