@@ -2,44 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Messages</title>
+    <title>Shiter index page</title>
 </head>
 <body>
-<div>
-    <h1>Messages</h1>
-</div>
-<div style="margin: 20px">
-    <form action="add-message" method="post">
-        <input type="text" name="message" id="message" placeholder="Enter new message here">
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="submit" value="Create">
-    </form>
-</div>
-<div style="margin: 20px">
-    <form method="get" action="/">
-        <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag">
-        <input type="submit" value="Filter">
-    </form>
-</div>
-<div>
-    <table style="border-width: 2px; border-style: solid">
-        <thead>
-        <tr style="border-width: 2px; border-style: solid">
-            <th>Id</th>
-            <th>Message</th>
-            <th>Tag</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#messages}}
-            <tr style="border-width: 2px; border-style: solid">
-                <td>{{id}}</td>
-                <td>{{message}}</td>
-                <td>{{tag}}</td>
-            </tr>
-        {{/messages}}
-        </tbody>
-    </table>
-</div>
+    <h1>Welcome to Shmiter</h1>
+    <a href="messages">Messages</a>
 </body>
 </html>

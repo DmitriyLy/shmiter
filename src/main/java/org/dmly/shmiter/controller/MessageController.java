@@ -20,7 +20,7 @@ public class MessageController {
         this.repository = repository;
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/messages")
     public String displayIndex(@RequestParam(required = false, name = "filterTag") String filterTag,
                                Map<String, Object> model) {
 
@@ -29,7 +29,7 @@ public class MessageController {
         } else {
             model.put("messages", repository.findAll());
         }
-        return "index";
+        return "messages";
     }
 
     @PostMapping(path = "/add-message")
@@ -37,7 +37,7 @@ public class MessageController {
                              @RequestParam(required = false, defaultValue = "", name = "tag") String tag) {
 
         repository.save(new Message(message, tag));
-        return "redirect:/";
+        return "redirect:/messages";
     }
 
 }
