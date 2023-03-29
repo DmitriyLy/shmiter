@@ -1,8 +1,10 @@
 package org.dmly.shmiter.controller;
 
 import org.dmly.shmiter.model.Message;
+import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +35,12 @@ public class MessageController {
     }
 
     @PostMapping(path = "/add-message")
-    public String addMessage(@RequestParam(required = true, name = "message") String message,
-                             @RequestParam(required = false, defaultValue = "", name = "tag") String tag) {
+    public String addMessage(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = true, name = "message") String message,
+            @RequestParam(required = false, defaultValue = "", name = "tag") String tag) {
 
-        repository.save(new Message(message, tag));
+        repository.save(new Message(message, tag, user));
         return "redirect:/messages";
     }
 

@@ -1,9 +1,6 @@
 package org.dmly.shmiter.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Message {
@@ -14,12 +11,17 @@ public class Message {
     private String message;
     private String tag;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User author;
+
     public Message() {
     }
 
-    public Message(String message, String tag) {
+    public Message(String message, String tag, User user) {
         this.message = message;
         this.tag = tag;
+        this.author = user;
     }
 
     public Long getId() {
@@ -44,5 +46,20 @@ public class Message {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getAuthorName() {
+        if (author == null) {
+            return "<none>";
+        }
+        return author.getUsername();
     }
 }

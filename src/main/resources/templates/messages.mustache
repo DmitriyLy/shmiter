@@ -23,7 +23,7 @@
     </form>
 </div>
 <div style="margin: 20px">
-    <form method="get" action="/">
+    <form method="get" action="/messages">
         <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <input type="submit" value="Filter">
@@ -36,6 +36,7 @@
             <th>Id</th>
             <th>Message</th>
             <th>Tag</th>
+            <th>Author</th>
         </tr>
         </thead>
         <tbody>
@@ -44,6 +45,7 @@
                 <td>{{id}}</td>
                 <td>{{message}}</td>
                 <td>{{tag}}</td>
+                <td><strong>{{authorName}}</strong></td>
             </tr>
         {{/messages}}
         </tbody>

@@ -1,5 +1,7 @@
 package org.dmly.shmiter.config;
 
+import org.dmly.shmiter.repository.UserRepository;
+import org.dmly.shmiter.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,12 +32,13 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+       /* JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, active from usr where username=?");
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur " +
                 "on u.id = ur.user_id where u.username=?");
-        return jdbcUserDetailsManager;
+        return jdbcUserDetailsManager;*/
+        return new UserService(userRepository);
     }
 
     @Bean
