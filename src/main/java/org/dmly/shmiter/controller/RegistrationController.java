@@ -1,6 +1,6 @@
 package org.dmly.shmiter.controller;
 
-import org.dmly.shmiter.dto.UserDto;
+import org.dmly.shmiter.dto.CreateUserDto;
 import org.dmly.shmiter.model.Role;
 import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.UserRepository;
@@ -28,33 +28,33 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addNewUser(UserDto userDto, Map<String, Object> model) {
-        if (userDto.username() == null || userDto.username().isEmpty()) {
+    public String addNewUser(CreateUserDto createUserDto, Map<String, Object> model) {
+        if (createUserDto.username() == null || createUserDto.username().isEmpty()) {
             model.put("message", "Username is empty");
             return "registration";
         }
 
-        if (userRepository.findByUsername(userDto.username()) != null) {
+        if (userRepository.findByUsername(createUserDto.username()) != null) {
             model.put("message", "Provided username already presents");
             return "registration";
         }
 
-        if (userDto.password() == null || userDto.password().isEmpty()) {
+        if (createUserDto.password() == null || createUserDto.password().isEmpty()) {
             model.put("message", "Password is empty");
             return "registration";
         }
 
-        if (userDto.confirmPassword() == null || userDto.confirmPassword().isEmpty()) {
+        if (createUserDto.confirmPassword() == null || createUserDto.confirmPassword().isEmpty()) {
             model.put("message", "Password confirmation is empty");
             return "registration";
         }
 
-        if (!userDto.password().equals(userDto.confirmPassword())) {
+        if (!createUserDto.password().equals(createUserDto.confirmPassword())) {
             model.put("message", "Password and confirmation do not match");
             return "registration";
         }
 
-        User newUser = new User(userDto.username(), userDto.password(), true, Set.of(Role.USER));
+        User newUser = new User(createUserDto.username(), createUserDto.password(), true, Set.of(Role.USER));
         userRepository.save(newUser);
 
         return "redirect:/login";

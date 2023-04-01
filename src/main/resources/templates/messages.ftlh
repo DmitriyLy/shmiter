@@ -3,12 +3,9 @@
 <div>
     <h1>Messages</h1>
 </div>
-<div>
-    <form action="/logout" method="post">
-        <input type="submit" value="Sign Out"/>
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
-    </form>
-</div>
+
+<@commons.buttons/>
+
 <div style="margin: 20px">
     <form action="add-message" method="post">
         <input type="text" name="message" id="message" placeholder="Enter new message here">
