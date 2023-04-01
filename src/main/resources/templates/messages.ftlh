@@ -7,9 +7,10 @@
 <@commons.buttons/>
 
 <div style="margin: 20px">
-    <form action="add-message" method="post">
+    <form action="add-message" method="post" enctype="multipart/form-data">
         <input type="text" name="message" id="message" placeholder="Enter new message here">
         <input type="text" name="tag" id="tag" placeholder="Tag">
+        <input type="file" name="file" placeholder="Choose file....">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <input type="submit" value="Create">
     </form>
@@ -28,6 +29,7 @@
             <th>Message</th>
             <th>Tag</th>
             <th>Author</th>
+            <th>Attachment</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +39,11 @@
                 <td>${message.message}</td>
                 <td>${message.tag}</td>
                 <td><strong>${message.authorName}</strong></td>
+                <td>
+                    <#if message.file?has_content>
+                    <img src="/img/${message.file}" alt="none">
+                    </#if>
+                </td>
             </tr>
         </#list>
         </tbody>

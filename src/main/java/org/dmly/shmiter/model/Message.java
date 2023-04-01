@@ -10,6 +10,7 @@ public class Message {
     private Long id;
     private String message;
     private String tag;
+    private String file;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -18,10 +19,11 @@ public class Message {
     public Message() {
     }
 
-    public Message(String message, String tag, User user) {
+    public Message(String message, String tag, User user, String file) {
         this.message = message;
         this.tag = tag;
         this.author = user;
+        this.file = file;
     }
 
     public Long getId() {
@@ -61,5 +63,13 @@ public class Message {
             return "<none>";
         }
         return author.getUsername();
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }
