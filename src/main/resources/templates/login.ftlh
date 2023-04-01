@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Spring Security Example </title>
-</head>
-<body>
+<#import "/macros/commons.ftlh" as commons>
 
+<@commons.common>
 <h1>Sing in</h1>
 <p></p>
 <form action="/login" method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
     <div><input type="submit" value="Sign In"/></div>
 </form>
 <div style="margin: 20px">
     <a href="/registration">Register here!</a>
 </div>
-</body>
-</html>
+</@commons.common>

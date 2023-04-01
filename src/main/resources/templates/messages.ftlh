@@ -1,31 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Messages</title>
-</head>
-<body>
+<#import "/macros/commons.ftlh" as commons>
+<@commons.common>
 <div>
     <h1>Messages</h1>
 </div>
 <div>
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
     </form>
 </div>
 <div style="margin: 20px">
     <form action="add-message" method="post">
         <input type="text" name="message" id="message" placeholder="Enter new message here">
         <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <input type="submit" value="Create">
     </form>
 </div>
 <div style="margin: 20px">
     <form method="get" action="/messages">
-        <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag" value="${filterTag}">
         <input type="submit" value="Filter">
     </form>
 </div>
@@ -40,16 +34,15 @@
         </tr>
         </thead>
         <tbody>
-        {{#messages}}
+        <#list messages as message>
             <tr style="border-width: 2px; border-style: solid">
-                <td>{{id}}</td>
-                <td>{{message}}</td>
-                <td>{{tag}}</td>
-                <td><strong>{{authorName}}</strong></td>
+                <td>${message.id}</td>
+                <td>${message.message}</td>
+                <td>${message.tag}</td>
+                <td><strong>${message.authorName}</strong></td>
             </tr>
-        {{/messages}}
+        </#list>
         </tbody>
     </table>
 </div>
-</body>
-</html>
+</@commons.common>

@@ -23,7 +23,7 @@ public class MessageController {
     }
 
     @GetMapping(path = "/messages")
-    public String displayIndex(@RequestParam(required = false, name = "filterTag") String filterTag,
+    public String displayIndex(@RequestParam(required = false, name = "filterTag", defaultValue = "") String filterTag,
                                Map<String, Object> model) {
 
         if (filterTag != null && !filterTag.isEmpty()) {
@@ -31,6 +31,7 @@ public class MessageController {
         } else {
             model.put("messages", repository.findAll());
         }
+        model.put("filterTag", filterTag);
         return "messages";
     }
 

@@ -11,9 +11,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  mustache:
-    servlet:
-      expose-request-attributes: true
+  freemarker:
+    expose-request-attributes: true
 logging:
   level:
     root: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
