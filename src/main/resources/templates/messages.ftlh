@@ -30,7 +30,9 @@
                 <div class="card-body">
                     <h5 class="card-title">${message.tag}</h5>
                     <p class="card-text">${message.message}</p>
-                    <p class="card-text"><small class="text-body-secondary">${message.authorName}</small></p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary">${message.authorName}</small>
                 </div>
             </div>
         </div>
