@@ -1,6 +1,7 @@
 package org.dmly.shmiter.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.dmly.shmiter.model.Message;
 import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.MessageRepository;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-public class MessageController {
+public class MessageController extends AbstractController {
 
     private final MessageRepository repository;
 
@@ -35,7 +36,8 @@ public class MessageController {
 
     @GetMapping(path = "/messages")
     public String displayIndex(@RequestParam(required = false, name = "filterTag", defaultValue = "") String filterTag,
-                               Map<String, Object> model) {
+                               Map<String, Object> model,
+                               HttpServletRequest request) {
 
         if (filterTag != null && !filterTag.isEmpty()) {
             model.put("messages", repository.findByTag(filterTag));
@@ -43,6 +45,8 @@ public class MessageController {
             model.put("messages", repository.findAll());
         }
         model.put("filterTag", filterTag);
+
+        addRequiredAttributes(model, request);
         return "messages";
     }
 

@@ -1,6 +1,7 @@
 package org.dmly.shmiter.model;
 
 import jakarta.persistence.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +35,10 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public boolean isAdmin() {
+        return CollectionUtils.isNotEmpty(roles) && roles.contains(Role.ADMIN);
+    }
+
     public Long getId() {
         return id;
     }
@@ -42,6 +47,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }

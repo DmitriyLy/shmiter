@@ -1,5 +1,6 @@
 package org.dmly.shmiter.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.dmly.shmiter.dto.CreateUserDto;
 import org.dmly.shmiter.model.Role;
 import org.dmly.shmiter.model.User;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/registration")
-public class RegistrationController {
+public class RegistrationController extends AbstractController {
 
     private final UserRepository userRepository;
 
@@ -23,7 +24,8 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String displayRegistrationPage() {
+    public String displayRegistrationPage(Map<String, Object> model, HttpServletRequest request) {
+        addRequiredAttributes(model, request);
         return "registration";
     }
 

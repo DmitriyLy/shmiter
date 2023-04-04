@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/users")
 @PreAuthorize("hasAnyAuthority('ADMIN')")
-public class UserController {
+public class UserController extends AbstractController {
 
     private final UserRepository userRepository;
 
@@ -26,17 +26,21 @@ public class UserController {
     }
 
     @GetMapping
-    public String displayUsersPage(Model model) {
+    public String displayUsersPage(Model model, HttpServletRequest request) {
         model.addAttribute("users", userRepository.findAll());
+        addRequiredAttributes(model, request);
         return "users";
     }
 
     @GetMapping("{id}")
-    public String displayUserEditForm(@PathVariable(name = "id") Long id, Model model) {
+    public String displayUserEditForm(@PathVariable(name = "id") Long id,
+                                      Model model,
+                                      HttpServletRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         EditUserDto userDto = new EditUserDto(user.getId(), user.getUsername(), user.getRoles());
         model.addAttribute("user", userDto);
         model.addAttribute("roles", Role.values());
+        addRequiredAttributes(model, request);
         return "userEditForm";
     }
 

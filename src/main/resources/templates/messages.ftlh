@@ -1,52 +1,39 @@
 <#import "/macros/commons.ftlh" as commons>
 <@commons.common>
-<div>
-    <h1>Messages</h1>
-</div>
+    <div>
+        <h1>Messages</h1>
+    </div>
 
-<@commons.buttons/>
+    <div>
+        <form action="add-message" method="post" enctype="multipart/form-data">
+            <input type="text" name="message" id="message" placeholder="Enter new message here">
+            <input type="text" name="tag" id="tag" placeholder="Tag">
+            <input type="file" name="file" placeholder="Choose file....">
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+            <input type="submit" value="Create">
+        </form>
+    </div>
+    <div>
+        <form method="get" action="/messages">
+            <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag" value="${filterTag}">
+            <input type="submit" value="Filter">
+        </form>
+    </div>
 
-<div style="margin: 20px">
-    <form action="add-message" method="post" enctype="multipart/form-data">
-        <input type="text" name="message" id="message" placeholder="Enter new message here">
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="file" name="file" placeholder="Choose file....">
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <input type="submit" value="Create">
-    </form>
-</div>
-<div style="margin: 20px">
-    <form method="get" action="/messages">
-        <input type="text" name="filterTag" id="filterTag" placeholder="Filtering tag" value="${filterTag}">
-        <input type="submit" value="Filter">
-    </form>
-</div>
-<div>
-    <table style="border-width: 2px; border-style: solid">
-        <thead>
-        <tr style="border-width: 2px; border-style: solid">
-            <th>Id</th>
-            <th>Message</th>
-            <th>Tag</th>
-            <th>Author</th>
-            <th>Attachment</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         <#list messages as message>
-            <tr style="border-width: 2px; border-style: solid">
-                <td>${message.id}</td>
-                <td>${message.message}</td>
-                <td>${message.tag}</td>
-                <td><strong>${message.authorName}</strong></td>
-                <td>
-                    <#if message.file?has_content>
-                    <img src="/img/${message.file}" alt="none">
-                    </#if>
-                </td>
-            </tr>
+        <div class="col">
+            <div class="card">
+                <#if message.file?has_content>
+                    <img src="/img/${message.file}" alt="No image" class="card-img-top">
+                </#if>
+                <div class="card-body">
+                    <h5 class="card-title">${message.tag}</h5>
+                    <p class="card-text">${message.message}</p>
+                    <p class="card-text"><small class="text-body-secondary">${message.authorName}</small></p>
+                </div>
+            </div>
+        </div>
         </#list>
-        </tbody>
-    </table>
-</div>
+    </div>
 </@commons.common>
