@@ -3,9 +3,9 @@
 
     <h1>Registration</h1>
     <p></p>
-    <#if message??>
+    <#if errorMessage??>
         <div class="alert alert-danger" role="alert">
-            ${message}
+            ${errorMessage}
         </div>
     </#if>
     <form action="/registration" method="post">

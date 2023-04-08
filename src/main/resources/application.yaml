@@ -13,6 +13,16 @@ spring:
         format_sql: true
   freemarker:
     expose-request-attributes: true
+  mail:
+    host: 'smtp.gmail.com'
+    port: 587
+    username: '<login user to smtp server>'
+    password: '<login password to smtp server>'
+
+
+  #spring.mail.properties.mail.smtp.auth=true
+  #spring.mail.properties.mail.smtp.starttls.enable=true
+
 logging:
   level:
     root: debug

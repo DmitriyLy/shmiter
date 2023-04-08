@@ -25,6 +25,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ActivationToken activationToken;
+
     public User() {
     }
 
@@ -83,6 +86,14 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public ActivationToken getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(ActivationToken activationToken) {
+        this.activationToken = activationToken;
     }
 
     public void setPassword(String password) {
