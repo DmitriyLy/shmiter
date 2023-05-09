@@ -8,6 +8,11 @@
             ${errorMessage}
         </div>
     </#if>
+    <#if activationUrl??>
+        <div class="alert alert-success" role="alert">
+            Your activation URL is ${activationUrl}
+        </div>
+    </#if>
     <form action="/registration" method="post">
         <div class="row mb-3">
             <label for="usernameInput" class="col-sm-2 col-form-label">New Username</label>

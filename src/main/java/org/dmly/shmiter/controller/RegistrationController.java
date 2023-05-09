@@ -34,10 +34,11 @@ public class RegistrationController extends AbstractController {
 
         if (!result.isSuccessful()) {
             model.put("errorMessage", result.errorMessage());
-            return "registration";
+        } else {
+            model.put("activationUrl", "http://localhost:8080/registration/activation?token=" + result.token());
         }
 
-        return "redirect:/login";
+        return "registration";
     }
 
     @GetMapping(path = "/activation")

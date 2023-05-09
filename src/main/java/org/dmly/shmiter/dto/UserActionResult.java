@@ -1,4 +1,4 @@
 package org.dmly.shmiter.dto;
 
-public record UserActionResult(boolean isSuccessful, String errorMessage) {
+public record UserActionResult(boolean isSuccessful, String errorMessage, String token) {
 }

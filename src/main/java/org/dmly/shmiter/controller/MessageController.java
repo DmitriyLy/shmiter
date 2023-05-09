@@ -1,7 +1,6 @@
 package org.dmly.shmiter.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.dmly.shmiter.model.Message;
 import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.MessageRepository;

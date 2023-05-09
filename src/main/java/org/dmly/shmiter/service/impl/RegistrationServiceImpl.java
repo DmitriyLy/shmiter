@@ -32,23 +32,23 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public UserActionResult register(CreateUserDto createUserDto) {
         if (createUserDto.username() == null || createUserDto.username().isEmpty()) {
-            return new UserActionResult(false, "Username is empty");
+            return new UserActionResult(false, "Username is empty", "");
         }
 
         if (userRepository.findByUsername(createUserDto.username()) != null) {
-            return new UserActionResult(false, "Provided username already presents");
+            return new UserActionResult(false, "Provided username already presents", "");
         }
 
         if (createUserDto.password() == null || createUserDto.password().isEmpty()) {
-            return new UserActionResult(false, "Password is empty");
+            return new UserActionResult(false, "Password is empty", "");
         }
 
         if (createUserDto.confirmPassword() == null || createUserDto.confirmPassword().isEmpty()) {
-            return new UserActionResult(false, "Password confirmation is empty");
+            return new UserActionResult(false, "Password confirmation is empty", "");
         }
 
         if (!createUserDto.password().equals(createUserDto.confirmPassword())) {
-            return new UserActionResult(false, "Password and confirmation do not match");
+            return new UserActionResult(false, "Password and confirmation do not match", "");
         }
 
         User newUser = new User(createUserDto.username(), createUserDto.password(), false, Set.of(Role.USER));
@@ -58,26 +58,26 @@ public class RegistrationServiceImpl implements RegistrationService {
         token.setUser(newUser);
         userRepository.save(newUser);
 
-        return new UserActionResult(true, "");
+        return new UserActionResult(true, "", token.getToken());
     }
 
     @Override
     public UserActionResult activate(String tokenValue) {
 
         if (tokenValue == null) {
-            return new UserActionResult(false, "Token cannot be empty");
+            return new UserActionResult(false, "Token cannot be empty", "");
         }
 
         Optional<ActivationToken> activationToken = tokenRepository.findByToken(tokenValue);
 
         if (activationToken.isEmpty()) {
-            return new UserActionResult(false, "Cannot find provided token");
+            return new UserActionResult(false, "Cannot find provided token", "");
         }
 
         User user = activationToken.get().getUser();
         user.setActive(true);
         userRepository.save(user);
 
-        return new UserActionResult(true, "");
+        return new UserActionResult(true, "", "");
     }
 }

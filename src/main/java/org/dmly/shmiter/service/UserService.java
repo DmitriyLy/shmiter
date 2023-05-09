@@ -1,20 +1,17 @@
 package org.dmly.shmiter.service;
 
-import org.dmly.shmiter.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.dmly.shmiter.dto.UserActionResult;
+import org.dmly.shmiter.model.User;
 
-public class UserService implements UserDetailsService {
+import java.util.List;
+import java.util.Optional;
 
-    private final UserRepository userRepository;
+public interface UserService {
+    List<User> findAll();
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    Optional<User> findById(Long id);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
-    }
+    void save(User user);
+
+    UserActionResult saveProfile(User user, String newPassword, String newEmail);
 }

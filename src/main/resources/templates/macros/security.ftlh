@@ -7,6 +7,7 @@ isSecurityContext = securityContext??
     user = securityContext.authentication.principal
     name = user.getUsername()
     isAdmin = user.isAdmin()
+    email = user.getEmail() ! ''
     >
 <#else>
     <#assign
