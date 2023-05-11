@@ -3,6 +3,11 @@
 <@commons.common>
     <h1>Sing in</h1>
     <p></p>
+    <#if authenticationException??>
+        <div class="alert alert-danger" role="alert">
+            ${authenticationException}
+        </div>
+    </#if>
     <form action="/login" method="post">
         <div class="row mb-3">
             <label for="usernameInput" class="col-sm-2 col-form-label">User Name</label>

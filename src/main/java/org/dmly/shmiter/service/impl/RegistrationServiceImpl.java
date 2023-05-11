@@ -9,6 +9,7 @@ import org.dmly.shmiter.repository.ActivationTokenRepository;
 import org.dmly.shmiter.repository.UserRepository;
 import org.dmly.shmiter.service.ActivationTokenProvider;
 import org.dmly.shmiter.service.RegistrationService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,38 +21,33 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final ActivationTokenProvider tokenProvider;
     private final ActivationTokenRepository tokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RegistrationServiceImpl(UserRepository userRepository,
                                    ActivationTokenProvider tokenProvider,
-                                   ActivationTokenRepository tokenRepository) {
+                                   ActivationTokenRepository tokenRepository,
+                                   PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.tokenProvider = tokenProvider;
         this.tokenRepository = tokenRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserActionResult register(CreateUserDto createUserDto) {
-        if (createUserDto.username() == null || createUserDto.username().isEmpty()) {
-            return new UserActionResult(false, "Username is empty", "");
-        }
-
         if (userRepository.findByUsername(createUserDto.username()) != null) {
             return new UserActionResult(false, "Provided username already presents", "");
         }
 
-        if (createUserDto.password() == null || createUserDto.password().isEmpty()) {
-            return new UserActionResult(false, "Password is empty", "");
-        }
-
-        if (createUserDto.confirmPassword() == null || createUserDto.confirmPassword().isEmpty()) {
-            return new UserActionResult(false, "Password confirmation is empty", "");
-        }
-
-        if (!createUserDto.password().equals(createUserDto.confirmPassword())) {
+        if (!createUserDto.password().equals(createUserDto.passwordConfirmation())) {
             return new UserActionResult(false, "Password and confirmation do not match", "");
         }
 
-        User newUser = new User(createUserDto.username(), createUserDto.password(), false, Set.of(Role.USER));
+        User newUser = new User(createUserDto.username(),
+                passwordEncoder.encode(createUserDto.password()),
+                false,
+                Set.of(Role.USER),
+                createUserDto.email());
         ActivationToken token = tokenProvider.getToken();
 
         newUser.setActivationToken(token);

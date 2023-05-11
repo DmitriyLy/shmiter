@@ -31,9 +31,9 @@ create table usr
 (
     id       bigint  not null,
     active   boolean not null,
-    password varchar(255),
-    username varchar(255),
-    email varchar(255),
+    password varchar(255) not null,
+    username varchar(255) not null,
+    email varchar(255) not null,
     primary key (id)
 );
 

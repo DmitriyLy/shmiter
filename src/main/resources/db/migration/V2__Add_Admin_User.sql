@@ -1,2 +1,2 @@
-insert into usr (id, username, password, active) values (nextval('usr_seq'), 'admin', 'admin', true);
+insert into usr (id, username, password, active, email) values (nextval('usr_seq'), 'admin', 'admin', true, 'admin@shmiter.com');
 insert into user_role (user_id, roles) values ((select id from usr limit 1), 'USER'), ((select id from usr limit 1), 'ADMIN');

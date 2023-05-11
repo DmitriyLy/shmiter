@@ -1,6 +1,8 @@
 package org.dmly.shmiter.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Message {
@@ -8,6 +10,9 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Message cannot be empty")
+    @Size(max = 2048, message = "Message length cannot be more than 2kB")
     private String message;
     private String tag;
     private String file;

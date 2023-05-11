@@ -5,6 +5,7 @@ import org.dmly.shmiter.dto.UserActionResult;
 import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.UserRepository;
 import org.dmly.shmiter.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (StringUtils.isNotEmpty(newPassword) && !StringUtils.equals(newPassword, user.getPassword())) {
-            user.setPassword(newPassword);
+            user.setPassword(passwordEncoder.encode(newPassword));
             isChanged = true;
         }
 

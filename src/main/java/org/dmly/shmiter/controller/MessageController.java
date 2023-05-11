@@ -1,13 +1,20 @@
 package org.dmly.shmiter.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.dmly.shmiter.dto.MessageDto;
 import org.dmly.shmiter.model.Message;
 import org.dmly.shmiter.model.User;
 import org.dmly.shmiter.repository.MessageRepository;
+import org.dmly.shmiter.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +26,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class MessageController extends AbstractController {
@@ -35,32 +43,45 @@ public class MessageController extends AbstractController {
 
     @GetMapping(path = "/messages")
     public String displayIndex(@RequestParam(required = false, name = "filterTag", defaultValue = "") String filterTag,
-                               Map<String, Object> model,
+                               Model model,
                                HttpServletRequest request) {
 
         if (filterTag != null && !filterTag.isEmpty()) {
-            model.put("messages", repository.findByTag(filterTag));
+            model.addAttribute("messages", repository.findByTag(filterTag));
         } else {
-            model.put("messages", repository.findAll());
+            model.addAttribute("messages", repository.findAll());
         }
-        model.put("filterTag", filterTag);
+        model.addAttribute("filterTag", filterTag);
 
         addRequiredAttributes(model, request);
         return "messages";
     }
 
-    @PostMapping(path = "/add-message")
+    @PostMapping(path = "/messages")
     public String addMessage(
             @AuthenticationPrincipal User user,
-            @RequestParam(required = true, name = "message") String message,
-            @RequestParam(required = false, defaultValue = "", name = "tag") String tag,
-            @RequestParam(required = false, name = "file") MultipartFile file,
+            @Valid MessageDto messageDto,
+            BindingResult bindingResult,
+            Model model,
             HttpServletRequest request) throws IOException {
 
-        String fileName = getAttachmentFilename(file).orElse(null);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ValidationUtils.getFieldsErrorsMap(bindingResult);
+            model.addAttribute("messageFiledError", errors.get("message"));
+        } else {
+            String fileName = null;
 
-        repository.save(new Message(message, tag, user, fileName));
-        return "redirect:/messages";
+            if (messageDto.getFile() != null) {
+                fileName = getAttachmentFilename(messageDto.getFile()).orElse(null);
+            }
+
+            repository.save(new Message(messageDto.getMessage(), messageDto.getTag(), user, fileName));
+        }
+
+        model.addAttribute("messages", repository.findAll());
+        model.addAttribute("filterTag", "");
+        addRequiredAttributes(model, request);
+        return "messages";
     }
 
     private Optional<String> getAttachmentFilename(MultipartFile file) throws IOException {

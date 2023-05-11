@@ -39,6 +39,14 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public User(String username, String password, boolean active, Set<Role> roles, String email) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+        this.email = email;
+    }
+
     public boolean isAdmin() {
         return CollectionUtils.isNotEmpty(roles) && roles.contains(Role.ADMIN);
     }
