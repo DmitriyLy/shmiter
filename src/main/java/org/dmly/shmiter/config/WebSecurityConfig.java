@@ -26,6 +26,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/registration/**", "/actuator/**", "/css/**", "/img/**", "/error")
                     .permitAll()
                 .anyRequest().authenticated()
+                .and().rememberMe()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll();
 

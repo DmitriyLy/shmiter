@@ -18,6 +18,10 @@ spring:
     port: 587
     username: '<login user to smtp server>'
     password: '<login password to smtp server>'
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: 'SPRING_SESSION'
 
 
   #spring.mail.properties.mail.smtp.auth=true
