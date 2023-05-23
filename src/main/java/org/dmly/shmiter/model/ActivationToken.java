@@ -2,10 +2,11 @@ package org.dmly.shmiter.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-public class ActivationToken {
+public class ActivationToken implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
